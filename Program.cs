@@ -1,82 +1,34 @@
-﻿using System.Diagnostics;
-class Program
+﻿class Program
 {
     static List<IProduct> CurrentOrder = new List<IProduct>();
+
     static void Main(string[] args)
     {
+        OrderProcessor orderProcessor = new OrderProcessor(CurrentOrder);
         while (true)
         {
+            Console.Clear();
 
+            decimal totalOrderPrice = CurrentOrder.Sum(product => product.Price);
+            Console.WriteLine("Your current order price equals: " + totalOrderPrice.ToString("C"));
 
-            Console.WriteLine("Your current order price equals: " + CurrentOrder.ToString());
+            DateTime date = DateTime.Now;
+            Console.WriteLine("\nToday is {0:d} at {0:T}.", date);
 
-            // System.Collections.Generic.List`1[IProduct]
-
-            // DateTime date = new DateTime();
-
-            // Console.WriteLine("\nToday is {0:d} at {0:T}.", date);
-            // Console.Write("\nPress any key to continue... ");
-            // Console.ReadLine();
-
-
-            Console.WriteLine("Your current order discount: " + "CurrentOrderDiscount");
-            Console.WriteLine("Discount comes form: + RuleOfDiscount");
-
-
-            Console.WriteLine("1) Add product");
+            Console.WriteLine("\n1) Add product");
             Console.WriteLine("2) Delete product");
-            Console.WriteLine("3) Quit Program");
+            Console.WriteLine("3) Check products in order");
+            Console.WriteLine("4) Quit Program");
 
-            int number = Convert.ToInt32(Console.ReadLine());
-            Console.WriteLine("You entered: " + number);
-
-            if (number == 1)
+            Console.WriteLine("Please enter a number (1-4):");
+            if (int.TryParse(Console.ReadLine(), out int number))
             {
-                Debugger.Break();
-
-                AddProduct();
-
-                // Console.WriteLine("You added a product");
-            }
-            else if (number == 2)
-            {
-                Debugger.Break();
-                Console.WriteLine("You deleted a product");
-            }
-            else if (number == 3)
-            {
-                Debugger.Break();
-                Environment.Exit(0);
+                UserInputHandler.ProcessUserInput(number, orderProcessor);
             }
             else
             {
-                Debugger.Break();
-                Console.WriteLine("You entered an invalid number");
-            }
-
-            static void AddProduct()
-            {
-                Console.WriteLine("What product do you want to add?");
-
-                ListOfProducts listOfProducts = new ListOfProducts();
-                for (int i = 0; i < listOfProducts.ListLength(); i++)
-                {
-                    var product = ListOfProducts.GetProducts()[i];
-                    Console.WriteLine($"{i + 1}. {product.Name} price: {product.Price}PLN");
-                }
-
-                int productNumber = Convert.ToInt32(Console.ReadLine());
-
-                if (productNumber > 0 && productNumber <= listOfProducts.ListLength())
-                {
-                    CurrentOrder.Add(ListOfProducts.GetProducts()[productNumber - 1]);
-                    Console.WriteLine("You added a product");
-                }
-                else
-                {
-                    Console.WriteLine("You entered an invalid number");
-                }
-
+                Console.WriteLine("Invalid input. Please enter a valid number.");
+                Console.ReadKey();
             }
         }
     }
