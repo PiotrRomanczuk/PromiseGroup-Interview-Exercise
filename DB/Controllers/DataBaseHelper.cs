@@ -29,6 +29,25 @@ public class DatabaseHelper
         }
     }
 
+    public void CreateUser(string id, string name)
+    {
+        using (var connection = new SqliteConnection(_connectionString))
+        {
+            connection.Open();
+
+            var command = connection.CreateCommand();
+            command.CommandText =
+                @"
+                    INSERT INTO user (id, name)
+                    VALUES ($id, $name)
+                ";
+            command.Parameters.AddWithValue("$id", id);
+            command.Parameters.AddWithValue("$name", name);
+
+            command.ExecuteNonQuery();
+        }
+    }
+
     public string GetUserNameById(string id)
     {
         using (var connection = new SqliteConnection(_connectionString))
