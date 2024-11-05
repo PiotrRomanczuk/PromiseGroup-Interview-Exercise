@@ -1,10 +1,17 @@
+using System.Diagnostics;
+
 public class OrderProcessor
 {
-    private List<IProduct> currentOrder;
+    private List<IProduct> currentProduct;
 
-    public OrderProcessor(List<IProduct> order)
+    public OrderProcessor(List<IProduct> product)
     {
-        currentOrder = order;
+        currentProduct = product;
+    }
+
+    public decimal GetDiscount()
+    {
+        return DiscountCalculator.CalculateDiscount(currentProduct);
     }
 
     public void AddProduct()
@@ -23,7 +30,7 @@ public class OrderProcessor
         if (int.TryParse(Console.ReadLine(), out int productNumber) &&
             productNumber > 0 && productNumber <= listOfProducts.ListLength())
         {
-            currentOrder.Add(ListOfProducts.GetProducts()[productNumber - 1]);
+            currentProduct.Add(ListOfProducts.GetProducts()[productNumber - 1]);
             Console.WriteLine("You added a product.");
         }
         else
@@ -40,16 +47,16 @@ public class OrderProcessor
         Console.Clear();
         Console.WriteLine("What product do you want to delete?");
 
-        for (int i = 0; i < currentOrder.Count; i++)
+        for (int i = 0; i < currentProduct.Count; i++)
         {
-            var product = currentOrder[i];
+            var product = currentProduct[i];
             Console.WriteLine($"{i + 1}. {product.Name} price: {product.Price}PLN");
         }
 
         if (int.TryParse(Console.ReadLine(), out int productNumber) &&
-            productNumber > 0 && productNumber <= currentOrder.Count)
+            productNumber > 0 && productNumber <= currentProduct.Count)
         {
-            currentOrder.RemoveAt(productNumber - 1);
+            currentProduct.RemoveAt(productNumber - 1);
             Console.WriteLine("You deleted a product.");
         }
         else
@@ -66,9 +73,9 @@ public class OrderProcessor
         Console.Clear();
         Console.WriteLine("Your current order contains:");
 
-        for (int i = 0; i < currentOrder.Count; i++)
+        for (int i = 0; i < currentProduct.Count; i++)
         {
-            var product = currentOrder[i];
+            var product = currentProduct[i];
             Console.WriteLine($"{i + 1}. {product.Name} price: {product.Price}PLN");
         }
 
