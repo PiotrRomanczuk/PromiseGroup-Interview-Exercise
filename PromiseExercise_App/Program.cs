@@ -6,7 +6,7 @@
 
         while (true)
         {
-            Console.Clear();
+            // Console.Clear();
             WelcomeDisplay.Show();
             DateDisplay.Show();
             OrderSummaryDisplay.Show(AppInitializer.CurrentOrder, AppInitializer.OrderProcessor);

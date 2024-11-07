@@ -18,10 +18,12 @@ public static class MenuInputHandler
                     orderProcessor.CheckOrder();
                     break;
                 case 4:
-                    orderProcessor.SaveOrder();
+                    // orderProcessor.SaveOrder();
+                    Console.WriteLine("This feature is not implemented yet.");
                     break;
                 case 5:
-                    orderProcessor.CheckAllOrders();
+                    Console.WriteLine("This feature is not implemented yet.");
+                    // orderProcessor.CheckAllOrders();
                     break;
                 case 6:
                     Environment.Exit(0);

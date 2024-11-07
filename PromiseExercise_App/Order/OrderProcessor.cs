@@ -83,13 +83,23 @@ public class OrderProcessor
 
     public void SaveOrder()
     {
+
+        var allUsers = _dbHandler.GetAllUsers();
+        Console.WriteLine($"All users: {allUsers.Count}");
+
+
         Console.WriteLine("Please enter your user id:");
         var userID = Console.ReadLine();
-        var userName = _dbHandler.GetUserNameById(userID);
 
-        if (userName != null)
+        if (userID != null)
         {
+
+
+            Console.WriteLine($"User found: {userID}");
+
+            Console.WriteLine(string.Join(", ", currentProduct));
             _dbHandler.CreateOrder(int.Parse(userID), currentProduct);
+
             Console.WriteLine("Order saved.");
         }
         else
