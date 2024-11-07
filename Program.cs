@@ -1,33 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-
-class Program
+﻿class Program
 {
-    private static List<IProduct> CurrentOrder = new List<IProduct>();
-    private static OrderProcessor orderProcessor;
-
-    private static void Initialize()
-    {
-        orderProcessor = new OrderProcessor(CurrentOrder);
-    }
-
     static void Main(string[] args)
     {
-        Initialize();
+        AppInitializer.Initialize();
 
         while (true)
         {
             Console.Clear();
             WelcomeDisplay.Show();
             DateDisplay.Show();
-            OrderSummaryDisplay.Show(CurrentOrder, orderProcessor);
+            OrderSummaryDisplay.Show(AppInitializer.CurrentOrder, AppInitializer.OrderProcessor);
             Menu.Display();
 
-            int userInput = int.Parse(Console.ReadLine());
-            UserInputHandler.ProcessUserInput(userInput, orderProcessor);
+            if (int.TryParse(Console.ReadLine(), out int userInput))
+            {
+                MenuInputHandler.ProcessUserInput(userInput, AppInitializer.OrderProcessor);
+            }
+            else
+            {
+                Console.WriteLine("Invalid input. Please enter a valid number.");
+                Thread.Sleep(2000); // Wait for 2 seconds to allow the user to read the error message
+            }
         }
     }
-
-
 }
-

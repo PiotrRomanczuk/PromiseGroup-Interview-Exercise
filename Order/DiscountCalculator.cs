@@ -4,14 +4,14 @@ public class DiscountCalculator
     {
         decimal totalOrderPrice = products.Sum(product => product.Price);
 
-        if (products.Count > 2)
+        if (products.Count > 1)
         {
             decimal minPrice = products.Min(product => product.Price);
             Console.WriteLine(minPrice);
             return minPrice * 0.1m;
         }
 
-        else if (products.Count > 3)
+        else if (products.Count > 2)
         {
             decimal minPrice = products.Min(product => product.Price);
             Console.WriteLine(minPrice);

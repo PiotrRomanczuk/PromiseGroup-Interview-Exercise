@@ -1,12 +1,13 @@
 public class OrderProcessor
 {
-    private List<IProduct> currentProduct;
+    private readonly List<IProduct> currentProduct;
+    private readonly DataBaseHandler _dbHandler;
 
-    public OrderProcessor(List<IProduct> product)
+    public OrderProcessor(List<IProduct> currentProduct, DataBaseHandler dbHandler)
     {
-        currentProduct = product;
+        this.currentProduct = currentProduct;
+        _dbHandler = dbHandler;
     }
-
     public decimal GetDiscount()
     {
         return DiscountCalculator.CalculateDiscount(currentProduct);
@@ -36,8 +37,7 @@ public class OrderProcessor
             Console.WriteLine("You entered an invalid number.");
         }
 
-        Console.WriteLine("Press any key to continue...");
-        Console.ReadKey();
+        Console.WriteLine("Press a key to go back to the main menu");
     }
 
     public void DeleteProduct()
@@ -75,6 +75,47 @@ public class OrderProcessor
         {
             var product = currentProduct[i];
             Console.WriteLine($"{i + 1}. {product.Name} price: {product.Price}PLN");
+        }
+
+        Console.WriteLine("Press any key to continue...");
+        Console.ReadKey();
+    }
+
+    public void SaveOrder()
+    {
+        Console.WriteLine("Please enter your user id:");
+        var userID = Console.ReadLine();
+        var userName = _dbHandler.GetUserNameById(userID);
+
+        if (userName != null)
+        {
+            _dbHandler.CreateOrder(int.Parse(userID), currentProduct);
+            Console.WriteLine("Order saved.");
+        }
+        else
+        {
+            Console.WriteLine("User not found.");
+        }
+
+        Console.WriteLine("Press any key to continue...");
+        Console.ReadKey();
+    }
+
+    public void CheckAllOrders()
+    {
+        Console.Clear();
+        Console.WriteLine("All orders:");
+
+        var orders = _dbHandler.GetAllOrders();
+
+        foreach (var order in orders)
+        {
+            Console.WriteLine($"Order id: {order.OrderModelId}, User id: {order.UserId}, Order date: {order.OrderDate}");
+
+            foreach (var product in order.OrderProducts)
+            {
+                Console.WriteLine($"Product: {product}");
+            }
         }
 
         Console.WriteLine("Press any key to continue...");
