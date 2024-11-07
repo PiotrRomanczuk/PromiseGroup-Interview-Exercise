@@ -38,7 +38,7 @@ The available products are:
 1. Clone the repository:
 
     ```sh
-    git clone <repository-url>
+    git clone https://github.com/PiotrRomanczuk/PromiseGroup-Interview-Exercise
     ```
 
 2. Navigate to the project directory:
